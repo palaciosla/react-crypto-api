@@ -6,23 +6,31 @@ import Coin from "./components/Coin";
 function App() {
   const [coins, setCoins] = useState([]);
   const [search, setSearch] = useState("")
-  let currency = "usd";
+  const [currency, setCurrency] = useState('usd')
+  const [perPage, setPerPage] = useState("10")
 
-  let url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=10&page=1&sparkline=false`;
+  let url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&order=market_cap_desc&per_page=${perPage}&page=1&sparkline=false`;
 
   useEffect(() => {
     axios
       .get(url)
       .then((res) => {
-        console.log(res.data);
         setCoins(res.data);
       })
       .catch((error) => console.log(error));
-  }, [currency]);
+  }, [currency, perPage]);
 
   const handleChange = (e) => {
     setSearch(e.target.value);
   };
+
+  const handleCurrency = e => {
+    setCurrency(e.target.value)
+  }
+
+  const handlePerPage = e => {
+    setPerPage(e.target.value)
+  }
 
   const filteredCoin = coins.filter((coin) => {
     return coin.name.toLowerCase().includes(search.toLowerCase());
@@ -39,6 +47,17 @@ function App() {
             placeholder="Search"
             onChange={handleChange}
           />
+          <select name="currency" onChange={handleCurrency} className="coin-currency">
+            <option value="usd">USD</option>
+            <option value="ars">ARS</option>
+          </select>
+          <select name="per-page" onChange={handlePerPage} className="coin-per-page">
+            <option value="null">Resultados</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
         </form>
       </div>
       <div className="coin-container">

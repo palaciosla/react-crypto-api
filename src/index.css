@@ -50,6 +50,13 @@ body {
   font-size: 17px;
 }
 
+.coin-currency,
+.coin-per-page {
+  height: 50px;
+  margin-left: 10px;
+  padding: 5px;
+}
+
 .coin-container {
   display: flex;
   justify-content: center;
